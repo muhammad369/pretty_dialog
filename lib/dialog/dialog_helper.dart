@@ -10,7 +10,7 @@ abstract class PrettyDialog {
   PrettyDialog._();
 
   static Future<bool> showAlertDialog(BuildContext context,
-      {required AlertType alertType, String? title, String? subTitle, required String okText, Color? okColor}) async {
+      {required AlertType alertType, String? title, String? subTitle, required String okText, Color? okColor, String? cancelText, Color? cancelColor}) async {
     return await showCustomDialog(
         context,
         GeneralDialog(
@@ -18,6 +18,8 @@ abstract class PrettyDialog {
           subTitle: subTitle,
           yesAction: okText,
           yesColor: okColor,
+          cancelAction: cancelText,
+          cancelColor: cancelColor,
           icon: Icon(
             alertType == AlertType.success
                 ? Icons.check_circle
@@ -65,17 +67,27 @@ abstract class PrettyDialog {
               : Icon(
                   icon,
                   size: 70,
-                  color: iconColor,
+                  color: iconColor ?? Theme.of(context).primaryColor,
                 ),
         ));
   }
 
-  static Future<int?> showOptionsDialog(BuildContext context, {String? title, String? subTitle, required List<String> options}) {
+  static Future<int?> showOptionsDialog(BuildContext context,
+      {String? title, String? subTitle, IconData? icon, Color? iconColor, Color? optionsColor, required List<String> options}) {
     return showCustomDialog<int?>(
       context,
       OptionsDialog(
         title: title,
         subTitle: subTitle,
+        icon: icon == null
+            ? null
+            : Icon(
+          icon,
+          size: 70,
+          color: iconColor?? Theme.of(context).primaryColor,
+        ),
+        //iconColor: iconColor,
+        optionsColor: optionsColor,
         options: options,
       ),
     );

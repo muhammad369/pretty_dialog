@@ -54,7 +54,7 @@ class GeneralDialog extends StatelessWidget {
               child: Text(
                 title ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
               )),
           Visibility(
               visible: _titleExists,
@@ -67,7 +67,7 @@ class GeneralDialog extends StatelessWidget {
               child: Text(
                 subTitle ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.bodyLarge,
               )),
           Visibility(
               visible: _subTitleExists,
@@ -127,7 +127,7 @@ class GeneralDialog extends StatelessWidget {
         style: ButtonStyle(backgroundColor: WidgetStateProperty.all(yesColor ?? PrettyToast.successColor)),
         child: Text(
           yesAction,
-          style: TextStyle(fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize),
+          style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, color: Theme.of(context).colorScheme.surface),
         ),
         onPressed: () => _returnWith(context, true),
       ),
@@ -139,7 +139,7 @@ class GeneralDialog extends StatelessWidget {
       width: double.maxFinite,
       child: TextButton(
         style: ButtonStyle(backgroundColor: WidgetStateProperty.all(noColor ?? PrettyToast.infoColor)),
-        child: Text(noAction!, style: TextStyle(fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize)),
+        child: Text(noAction!, style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, color: Theme.of(context).colorScheme.surface)),
         onPressed: () => _returnWith(context, false),
       ),
     );
@@ -152,7 +152,7 @@ class GeneralDialog extends StatelessWidget {
         style: ButtonStyle(
             foregroundColor: WidgetStateProperty.all(cancelColor ?? PrettyToast.infoColor),
             side: WidgetStateProperty.all(BorderSide(color: cancelColor ?? PrettyToast.infoColor))),
-        child: Text(cancelAction!, style: TextStyle(fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize)),
+        child: Text(cancelAction!, style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, )),
         onPressed: () => _returnWith(context, null),
       ),
     );

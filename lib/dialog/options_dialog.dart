@@ -5,22 +5,22 @@ import '../empty.dart';
 import 'dialog_helper.dart';
 
 class OptionsDialog extends StatefulWidget {
-  String? title, subTitle;
-  Widget? icon;
+  final String? title, subTitle;
+  final Widget? icon;
+  final Color? optionsColor;
+  final Color? iconColor;
   //
-  List<String> options;
+  final List<String> options;
 
-  OptionsDialog({Key? key, this.title, this.subTitle, this.icon, required this.options}) : super(key: key);
-
-  static double _smallPadding = 5;
-  static double _normalPadding = 20;
+  OptionsDialog({Key? key, this.title, this.subTitle, this.icon, this.iconColor, this.optionsColor, required this.options}) : super(key: key);
 
   @override
   State<OptionsDialog> createState() => _OptionsDialogState();
 }
 
 class _OptionsDialogState extends State<OptionsDialog> {
-  Color? btnsColor;
+  static double _smallPadding = 5;
+  static double _normalPadding = 20;
 
   bool get _titleExists => widget.title != null && widget.title!.isNotEmpty;
 
@@ -31,33 +31,31 @@ class _OptionsDialogState extends State<OptionsDialog> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(vertical: OptionsDialog._normalPadding - 5, horizontal: OptionsDialog._normalPadding),
+      padding: EdgeInsets.symmetric(vertical: _normalPadding - 5, horizontal: _normalPadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Visibility(
-              visible: widget.icon != null,
-              child: Container(margin: EdgeInsets.all(20), child: widget.icon ?? Container())),
+          Visibility(visible: widget.icon != null, child: Container(margin: EdgeInsets.all(20), child: widget.icon ?? Container())),
           Visibility(
               visible: widget.icon != null,
               child: Empty(
-                height: OptionsDialog._normalPadding,
+                height: _normalPadding,
               )),
+          //
           //
           Visibility(
               visible: _titleExists,
               child: Text(
                 widget.title ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
               )),
           Visibility(
               visible: _titleExists,
               child: Empty(
-                height: OptionsDialog._normalPadding,
+                height: _normalPadding,
               )),
           //
           Visibility(
@@ -65,12 +63,12 @@ class _OptionsDialogState extends State<OptionsDialog> {
               child: Text(
                 widget.subTitle ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.bodyLarge,
               )),
           Visibility(
               visible: _subTitleExists,
               child: Empty(
-                height: OptionsDialog._normalPadding,
+                height: _normalPadding,
               )),
           //
           SingleChildScrollView(
@@ -83,7 +81,7 @@ class _OptionsDialogState extends State<OptionsDialog> {
                     children: [
                       _buildBtn(context, e, i),
                       Empty(
-                        height: OptionsDialog._smallPadding,
+                        height: _smallPadding,
                       ),
                     ],
                   ),
@@ -99,18 +97,18 @@ class _OptionsDialogState extends State<OptionsDialog> {
       width: double.maxFinite,
       child: index == selection
           ? TextButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
+              style: ButtonStyle(backgroundColor: WidgetStateProperty.all( widget.optionsColor ?? Theme.of(context).primaryColor)),
               child: Text(
                 optionText,
-                style: TextStyle(fontSize: Theme.of(context).textTheme.displaySmall?.fontSize),
+                style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, color: Theme.of(context).colorScheme.surface),
               ),
               onPressed: () => _returnWith(context, index),
             )
           : OutlinedButton(
               style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
-                  side: MaterialStateProperty.all(BorderSide(color: Theme.of(context).primaryColor))),
-              child: Text(optionText, style: TextStyle(fontSize: Theme.of(context).textTheme.displaySmall?.fontSize)),
+                  foregroundColor: WidgetStateProperty.all(widget.optionsColor ?? Theme.of(context).primaryColor),
+                  side: WidgetStateProperty.all(BorderSide(color: widget.optionsColor ?? Theme.of(context).primaryColor))),
+              child: Text(optionText, style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, color: widget.optionsColor ?? Theme.of(context).primaryColor), ),
               onPressed: () => _setSelection(index),
             ),
     );
@@ -120,17 +118,6 @@ class _OptionsDialogState extends State<OptionsDialog> {
     PrettyDialog.hideDialog(context, result);
   }
 
-  Widget _buildBackdrop(BuildContext context) {
-    return ClipRect(
-      clipBehavior: Clip.antiAlias,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          color: Theme.of(context).colorScheme.surface.withOpacity(0.2),
-        ),
-      ),
-    );
-  }
 
   _setSelection(int index) {
     setState(() {
@@ -140,7 +127,6 @@ class _OptionsDialogState extends State<OptionsDialog> {
 }
 
 extension<Y> on List<Y> {
-
   List<T> mapIndexed<T>(T Function(int index, Y item) mapper) {
     var tmp = <T>[];
 

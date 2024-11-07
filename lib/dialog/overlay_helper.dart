@@ -81,12 +81,12 @@ abstract class PrettyToast {
   // progress methods
   // layer index 1 is preserved for the progress indicator
 
-  static void showProgressOverlay(BuildContext context, {required String text, durationInSeconds = 65}) {
+  static void showProgressToast(BuildContext context, {required String text, durationInSeconds = 65}) {
     clearFocus(context);
     showOverlay(context, layerId: _progressLayerId, durationInSeconds: durationInSeconds, widget: OverlayProgress(text));
   }
 
-  static void hideProgressOverlay() {
+  static void hideProgressToast() {
     hideOverlay(_progressLayerId);
   }
 
