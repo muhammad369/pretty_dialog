@@ -1,7 +1,7 @@
 name: pretty_dialog
-description: "A package to use for Dialogs and Toasts"
-version: 0.0.1
-homepage:
+description: "A Flutter package of dialogs and toasts"
+version: 1.0.0+1
+homepage: https://github.com/muhammad369/pretty_dialog
 
 environment:
   sdk: ^3.5.3
