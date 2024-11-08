@@ -1,3 +1,5 @@
-## 0.0.1
+## 1.0.1
 
-* TODO: Describe initial release.
+* README.md updated
+* Style independent from application theme
+

@@ -87,7 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 alertType: AlertType.success,
                 okText: "OK",
                 title: "Your account is created successfully",
-                //subTitle: "All your data will be permanently deleted, This can't be undone"
               ),
             ),
             ElevatedButton(
