@@ -2,6 +2,8 @@
 
 A package to use for dialogs and toasts in Flutter Apps
 
+ <img src="https://raw.githubusercontent.com/muhammad369/pretty_dialog/refs/heads/master/img1.gif?raw=true" height="600">
+
 ## Usage
 
 ### Alert Dialog

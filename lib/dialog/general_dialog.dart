@@ -6,7 +6,6 @@ import 'package:pretty_dialog/dialog/overlay_helper.dart';
 import '../empty.dart';
 import 'dialog_helper.dart';
 
-
 class GeneralDialog extends StatelessWidget {
   final String? title, subTitle;
   final Widget? icon;
@@ -16,7 +15,8 @@ class GeneralDialog extends StatelessWidget {
   final Color? yesColor, noColor, cancelColor;
 
   GeneralDialog(
-      {Key? key, this.title,
+      {Key? key,
+      this.title,
       this.subTitle,
       this.icon,
       required this.yesAction,
@@ -24,14 +24,16 @@ class GeneralDialog extends StatelessWidget {
       this.cancelAction,
       this.yesColor,
       this.noColor,
-      this.cancelColor}) : super(key: key);
+      this.cancelColor})
+      : super(key: key);
 
   bool get _titleExists => title != null && title!.isNotEmpty;
 
   bool get _subTitleExists => subTitle != null && subTitle!.isNotEmpty;
 
-  static double _smallPadding = 2;
+  static double _smallPadding = 5;
   static double _normalPadding = 20;
+  static double smallFont = 16, bigFont = 22;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class GeneralDialog extends StatelessWidget {
               child: Text(
                 title ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: bigFont, fontWeight: FontWeight.bold),
               )),
           Visibility(
               visible: _titleExists,
@@ -67,7 +69,7 @@ class GeneralDialog extends StatelessWidget {
               child: Text(
                 subTitle ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: smallFont),
               )),
           Visibility(
               visible: _subTitleExists,
@@ -124,10 +126,13 @@ class GeneralDialog extends StatelessWidget {
     return Container(
       width: double.maxFinite,
       child: TextButton(
-        style: ButtonStyle(backgroundColor: WidgetStateProperty.all(yesColor ?? PrettyToast.successColor)),
+        style: ButtonStyle(
+            padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+            shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+            backgroundColor: WidgetStateProperty.all(yesColor ?? PrettyToast.successColor)),
         child: Text(
           yesAction,
-          style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, color: Theme.of(context).colorScheme.surface),
+          style: TextStyle(fontSize: smallFont, color: Theme.of(context).colorScheme.surface),
         ),
         onPressed: () => _returnWith(context, true),
       ),
@@ -138,8 +143,11 @@ class GeneralDialog extends StatelessWidget {
     return Container(
       width: double.maxFinite,
       child: TextButton(
-        style: ButtonStyle(backgroundColor: WidgetStateProperty.all(noColor ?? PrettyToast.infoColor)),
-        child: Text(noAction!, style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, color: Theme.of(context).colorScheme.surface)),
+        style: ButtonStyle(
+            padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+            shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+            backgroundColor: WidgetStateProperty.all(noColor ?? PrettyToast.infoColor)),
+        child: Text(noAction!, style: TextStyle(fontSize: smallFont, color: Theme.of(context).colorScheme.surface)),
         onPressed: () => _returnWith(context, false),
       ),
     );
@@ -150,9 +158,11 @@ class GeneralDialog extends StatelessWidget {
       width: double.maxFinite,
       child: OutlinedButton(
         style: ButtonStyle(
+            padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+            shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
             foregroundColor: WidgetStateProperty.all(cancelColor ?? PrettyToast.infoColor),
-            side: WidgetStateProperty.all(BorderSide(color: cancelColor ?? PrettyToast.infoColor))),
-        child: Text(cancelAction!, style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, )),
+            side: WidgetStateProperty.all(BorderSide(color: cancelColor ?? PrettyToast.infoColor, width: 1.3))),
+        child: Text(cancelAction!, style: TextStyle(fontSize: smallFont)),
         onPressed: () => _returnWith(context, null),
       ),
     );
@@ -161,5 +171,4 @@ class GeneralDialog extends StatelessWidget {
   void _returnWith(BuildContext context, bool? result) {
     PrettyDialog.hideDialog(context, result);
   }
-
 }

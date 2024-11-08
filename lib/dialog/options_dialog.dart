@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pretty_dialog/dialog/general_dialog.dart';
 import '../empty.dart';
 import 'dialog_helper.dart';
 
@@ -19,7 +20,7 @@ class OptionsDialog extends StatefulWidget {
 }
 
 class _OptionsDialogState extends State<OptionsDialog> {
-  static double _smallPadding = 5;
+  static double _smallPadding = 7;
   static double _normalPadding = 20;
 
   bool get _titleExists => widget.title != null && widget.title!.isNotEmpty;
@@ -50,7 +51,7 @@ class _OptionsDialogState extends State<OptionsDialog> {
               child: Text(
                 widget.title ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: GeneralDialog.bigFont, fontWeight: FontWeight.bold),
               )),
           Visibility(
               visible: _titleExists,
@@ -63,7 +64,7 @@ class _OptionsDialogState extends State<OptionsDialog> {
               child: Text(
                 widget.subTitle ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: GeneralDialog.smallFont),
               )),
           Visibility(
               visible: _subTitleExists,
@@ -97,18 +98,26 @@ class _OptionsDialogState extends State<OptionsDialog> {
       width: double.maxFinite,
       child: index == selection
           ? TextButton(
-              style: ButtonStyle(backgroundColor: WidgetStateProperty.all( widget.optionsColor ?? Theme.of(context).primaryColor)),
+              style: ButtonStyle(
+                  padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+                  backgroundColor: WidgetStateProperty.all(widget.optionsColor ?? Theme.of(context).primaryColor),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)))),
               child: Text(
                 optionText,
-                style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, color: Theme.of(context).colorScheme.surface),
+                style: TextStyle(fontSize: GeneralDialog.smallFont, color: Theme.of(context).colorScheme.surface),
               ),
               onPressed: () => _returnWith(context, index),
             )
           : OutlinedButton(
               style: ButtonStyle(
+                  padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
                   foregroundColor: WidgetStateProperty.all(widget.optionsColor ?? Theme.of(context).primaryColor),
-                  side: WidgetStateProperty.all(BorderSide(color: widget.optionsColor ?? Theme.of(context).primaryColor))),
-              child: Text(optionText, style: TextStyle(fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize, color: widget.optionsColor ?? Theme.of(context).primaryColor), ),
+                  side: WidgetStateProperty.all(BorderSide(color: widget.optionsColor ?? Theme.of(context).primaryColor, width: 1))),
+              child: Text(
+                optionText,
+                style: TextStyle(fontSize: GeneralDialog.smallFont, color: widget.optionsColor ?? Theme.of(context).primaryColor),
+              ),
               onPressed: () => _setSelection(index),
             ),
     );
@@ -117,7 +126,6 @@ class _OptionsDialogState extends State<OptionsDialog> {
   void _returnWith(BuildContext context, int? result) {
     PrettyDialog.hideDialog(context, result);
   }
-
 
   _setSelection(int index) {
     setState(() {
