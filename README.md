@@ -1,5 +1,7 @@
 # Pretty Dialog
 
+[![pub package](https://img.shields.io/pub/v/pretty_dialog.svg)](https://pub.dev/packages/pretty_dialog)
+
 A package to use for dialogs and toasts in Flutter Apps
 
  <img src="https://raw.githubusercontent.com/muhammad369/pretty_dialog/refs/heads/master/img1.gif?raw=true" height="600">
